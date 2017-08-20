@@ -23,6 +23,6 @@ class ClockInTime < ApplicationRecord
   def self.average_clockin_time
     temp = 0
     self.all.each{|c| temp += c.time.localtime.strftime("%H").to_i}
-    temp / self.all.count
+    temp / self.all.count if self.all.count != 0
   end
 end

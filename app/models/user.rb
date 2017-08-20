@@ -41,6 +41,6 @@ end
   def average_clockin_user
     temp = 0
     clock_in_times.each{|c| temp += c.time.localtime.strftime("%H").to_i}
-    temp / clock_in_times.count
+    temp / clock_in_times.count if  clock_in_times.count != 0
   end
 end
