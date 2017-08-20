@@ -17,13 +17,16 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  username: test
+  password:
+  host: localhost
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
-  database: TimeTrack_development
+  database: timetrack
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -79,7 +82,4 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: TimeTrack_production
-  username: TimeTrack
-  password: <%= ENV['TIMETRACK_DATABASE_PASSWORD'] %>
+  adapter: postgresql

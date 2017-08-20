@@ -2,6 +2,20 @@
 <html>
   <head>
     <title>TimeTrack</title>
+    <%= nav_bar do %>
+      <%= menu_group do %>
+          <%= menu_item "Home", root_path %>
+      <% end %>
+      <%= menu_group pull: :right do %>
+          <% if current_user %>
+              <%= link_to image_tag("/assets/clock.png"), "#", class: "clockin"%>
+              <%= menu_item "Sign Out", destroy_user_session_path, method: :delete %>
+          <% else %>
+              <%= menu_item "Sign Up", new_user_registration_path %>
+              <%= menu_item "Sign In", new_user_session_path %>
+          <% end %>
+      <% end %>
+    <% end %>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,6 +23,8 @@
   </head>
 
   <body>
+    <p class="notice flash"><%= flash[:notice] %></p>
+    <p class="alert flash"><%= flash[:alert] %></p>
     <%= yield %>
   </body>
 </html>

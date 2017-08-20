@@ -1,0 +1,22 @@
+// Place all the styles related to the login controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.form{
+  text-align: center;
+  border: 2px solid grey;
+}
+.reg_fields{
+  padding-top: 10px;
+}
+.flash{
+  color: blue;
+  font-size: 25 px;
+  padding-top: 10px;
+}
+.clockin{
+  padding-top: 3px;
+  float: left;
+}
+.late{
+  background-color: red;
+}
