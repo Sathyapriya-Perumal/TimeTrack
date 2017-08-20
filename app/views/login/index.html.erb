@@ -1,35 +1,37 @@
+
 <div class="jumbotron container">
-  <%  unless current_user %>
-    <h2>Welcome folks! Please Sign In/Sign Up to clock in.</h2>
-    <div class="col-md-6">
-    <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-success" %>
-    </div>
-    <div class="col-md-6">
-      <%= link_to "Sign In", new_user_session_path, class: "btn btn-success" %>
-    </div>
-  <% else %>
-    <% unless current_user.clocked_in %>
-      <h3>Good Morning! Please click on the clock to start your day, have a nice day.</h3>
-    <% else %>
-      <h3>Good Morning! Please Find your clock in log below.</h3>
-    <% end %>
-    <div>
-      <% if @clockins.count >= 1 %>
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <td>Date </td>
-              <td>Clock in</td>
-            </tr>
-          </thead>
-          <% @clockins.each do |c| %>
-            <tr class="<%= c.late ? "late" : "normal"%>">
-              <td><%= c.time.localtime.strftime("%d/%m/%Y")%></td>
-              <td><%= c.time.localtime.strftime("%H:%M")%></td>
-            </tr>
+    <%  unless current_user %>
+        <h2>Welcome folks! Please Sign In/Sign Up to clock in.</h2>
+        <div class="col-md-6">
+        <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-success" %>
+        </div>
+        <div class="col-md-6">
+          <%= link_to "Sign In", new_user_session_path, class: "btn btn-success" %>
+        </div>
+      <% else %>
+        <% unless current_user.admin? %>
+          <% unless current_user.clocked_in %>
+            <h3>Good Morning! Please click on the clock to start your day, have a nice day.</h3>
+          <% else %>
+            <h3>Good Morning! Please Find your clock in log below.</h3>
           <% end %>
-        </table>
-      <% end %>
-    </div>
-  <% end %>
+        <% else %>
+        <h3>Average Clock In for all users is <%= ClockInTime.average_clockin_time %></h3>
+          <% if @clockins.count == 0 %>
+            <h3>Hurray! No late user today.</h3>
+          <% else %>
+            <h3> Today's Late Comers</h3>
+          <% end %>
+        <% end %>
+        <% if @clockins %>
+          <div>
+            <%= render partial: "log" %>
+          </div>
+        <% end %>
+    <% end %>
 </div>
+<% if @users && @users.count >= 1 %>
+  <div>
+    <%= render partial: "users"%>
+  </div>
+<% end %>

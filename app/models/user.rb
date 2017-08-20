@@ -8,8 +8,10 @@ class User < ApplicationRecord
   #validation for user name
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
   #relation with clockins
-  has_many :clock_in_times
+  has_many :clock_in_times, dependent: :destroy
 
+  #to send delted mail
+  before_destroy :send_mail_to_user
   #for letting db know of login email/username
 
   def self.find_first_by_auth_conditions(warden_conditions)
@@ -30,5 +32,15 @@ end
     if clock_in_times.select {|c| c.time.localtime.to_date == Date.today}.count >= 1
       true
     end
+  end
+
+  def send_mail_to_user
+    UserMailer.deleted_email(self)
+  end
+
+  def average_clockin_user
+    temp = 0
+    clock_in_times.each{|c| temp += c.time.localtime.strftime("%H").to_i}
+    temp / clock_in_times.count
   end
 end

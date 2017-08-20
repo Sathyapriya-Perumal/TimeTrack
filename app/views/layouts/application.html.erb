@@ -4,11 +4,18 @@
     <title>TimeTrack</title>
     <%= nav_bar do %>
       <%= menu_group do %>
-          <%= menu_item "Home", root_path %>
+        <% if current_user %>
+            <%= menu_item "Home", root_path %>
+            <% if current_user.admin? %>
+              <%= menu_item "Log", clockin_ledger_logins_path%>
+            <% end %>
+          <% end %>
       <% end %>
       <%= menu_group pull: :right do %>
           <% if current_user %>
-              <%= link_to image_tag("/assets/clock.png"), "#", class: "clockin"%>
+              <% unless current_user.admin? %>
+                <%= link_to image_tag("/assets/clock.png"), "#", class: "clockin"%>
+              <% end %>
               <%= menu_item "Sign Out", destroy_user_session_path, method: :delete %>
           <% else %>
               <%= menu_item "Sign Up", new_user_registration_path %>

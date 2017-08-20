@@ -1,0 +1,26 @@
+<% if @clockins.count >= 1 %>
+  <% user_ledger = true if @user_ledger %>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <% if current_user.admin? && !user_ledger %>
+          <td>User</td>
+        <% end %>
+        <td>Date </td>
+        <td>Clock in</td>
+        <td></td>
+      </tr>
+    </thead>
+    <% @clockins.each do |c| %>
+      <tr class="<%= c.late ? "late" : "normal"%>">
+        <% if current_user.admin? && !user_ledger %>
+          <td><%= link_to c.user.username, user_ledger_login_path(user: c.user) %></td>
+        <% end %>
+        <td><%= c.time.localtime.strftime("%d/%m/%Y")%></td>
+        <td><%= c.time.localtime.strftime("%H:%M")%></td>
+        <td><%= link_to "Delete this user", destory_user_login_path(c.user), method: :delete, data: {confirm: "Are you sure?"} %></td>
+      </tr>
+    <% end %>
+  </table>
+    <%= paginate @clockins %>
+<% end %>

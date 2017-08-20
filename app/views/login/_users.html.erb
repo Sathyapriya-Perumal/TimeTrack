@@ -1,0 +1,19 @@
+<h5> Late Comers (For a week): </h5>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <td>First Name</td>
+      <td>Last Name</td>
+      <td>Username </td>
+      <td>email</td>
+    </tr>
+  </thead>
+  <% @users.each do |c| %>
+    <tr>
+      <td><%= c.first_name%></td>
+      <td><%= c.last_name%></td>
+      <td><%= c.username%></td>
+      <td><%= c.email%></td>
+    </tr>
+  <% end %>
+</table>
