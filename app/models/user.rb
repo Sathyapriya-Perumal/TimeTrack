@@ -35,7 +35,7 @@ end
   end
 
   def send_mail_to_user
-    UserMailer.deleted_email(self)
+    UserMailer.deleted_email(self).deliver_now
   end
 
   def average_clockin_user
